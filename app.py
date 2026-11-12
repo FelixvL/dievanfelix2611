@@ -5,19 +5,21 @@ from dotenv import load_dotenv
 from azure.ai.contentunderstanding import ContentUnderstandingClient
 from azure.ai.contentunderstanding.models import AnalysisInput
 from azure.core.exceptions import AzureError
-from azure.identity import DefaultAzureCredential
+from azure.core.credentials import AzureKeyCredential
 
 load_dotenv()
 
 app = Flask(__name__)
 
-# Azure configuratie
+load_dotenv()
+
 endpoint = os.getenv("ENDPOINT")
 analyzer_id = os.getenv("ANALYZER")
+key = os.getenv("CONTENT_UNDERSTANDING_KEY")
 
 client = ContentUnderstandingClient(
     endpoint=endpoint,
-    credential=DefaultAzureCredential(),
+    credential=AzureKeyCredential(key),
     api_version="2025-11-01"
 )
 
