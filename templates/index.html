@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Azure Image Analyzer</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f5f9;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0001;
+        }
+
+        h1 {
+            color: #1769aa;
+        }
+
+        input {
+            margin: 20px 0;
+        }
+
+        button {
+            background: #1769aa;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #104e80;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #eef5ff;
+            border-radius: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #d7e8ff;
+            padding: 7px 12px;
+            margin: 5px;
+            border-radius: 20px;
+        }
+
+        .error {
+            color: #b00020;
+        }
+
+        #preview {
+            max-width: 100%;
+            max-height: 350px;
+            display: none;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Azure AI Image Analyzer</h1>
+
+    <p>Upload een afbeelding en laat Azure AI deze analyseren.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="image"
+            accept="image/*"
+            required
+            onchange="previewImage(event)"
+        >
+
+        <img id="preview" alt="Voorbeeld afbeelding">
+
+        <div>
+            <button type="submit">Analyseer afbeelding????</button>
+        </div>
+
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if description or tags %}
+
+        <div class="result">
+
+            <h2>Analyse resultaat</h2>
+
+            {% if description %}
+                <h3>Beschrijving</h3>
+                <p>{{ description }}</p>
+            {% endif %}
+
+            {% if tags %}
+                <h3>Tags</h3>
+
+                {% for tag in tags %}
+                    <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+function previewImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById("preview");
+
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    }
+}
+</script>
+
+</body>
+</html>
