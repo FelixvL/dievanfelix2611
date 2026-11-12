@@ -1,0 +1,4 @@
+dotenv
+azure-identity
+azure-ai-contentunderstanding
+flask
